@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>File Loader</title>
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="styles/normalize.css">
+</head>
+
+<style>
+
+    *{
+        margin: 0;
+        font-family:"Baloo Bhaina 2";
+    }
+    section{
+        position: relative;
+        width: 100vw;
+        height: 100vh;
+        background-color: white;
+        display: flex;
+        flex-direction: row;
+    }
+
+    section>div:nth-child(1){
+        width: 50vw;
+        height: 55vh;
+        background-color: #F6FAFF;
+        border-radius: 10px;
+        position: relative;
+        top: 8vh;
+        left: 2vw;
+        border: 1px solid black;
+        box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+
+    }
+
+    section>div>h3{
+        text-align: center;
+        position: relative;
+        top:15px;
+    }
+    section>div>hr{
+        position: relative;
+        width: 40vw;
+        left: 5vw;
+    }
+
+    .upload{
+        position: relative;
+        display: flex;
+        width: 50vw;
+        height: 40vh;
+        justify-content: space-evenly;
+
+    }
+
+    .upload>div:nth-child(1){
+        width: 20vw;
+        height: 42vh;
+        position: relative;
+    }
+    .upload>div:nth-child(1)>div{
+        width: 18vw;
+        height: 31vh;
+        background-color: #EDEDED;
+        position: relative;
+        top: 20px;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        margin: auto;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .pop{
+        position: relative;
+        top: 40px;
+        left: 55px;
+    }
+
+    input[type=file]::file-selector-button {
+        margin-right: 20px;
+        border: none;
+        background: #084cdf;
+        padding: 10px 20px;
+        border-radius: 10px;
+        color: #fff;
+        cursor: pointer;
+        transition: background .2s ease-in-out;
+    }
+
+    #imgPreview{
+        position: relative;
+        width: 18vw;
+        height: 36vh;
+    }
+
+    .upload>div:nth-child(2){
+        width: 20vw;
+        height: 40vh;
+        /*background-color: green;*/
+    }
+
+    section>nth:nth-child(1){
+        width: 200px;
+        height: 400px;
+    }
+    #uBtn{
+        position: relative;
+        top: 6.5vh;
+        width: 18vw;
+        height: 4vh;
+        border: none;
+        background-color: green;
+        color: white;
+        border-radius: 10px;
+
+    }
+
+    #tbl{
+        background-color: #F6FAFF;
+        border-radius: 10px;
+        position: relative;
+        width: 45vw;
+        height: 55vh;
+        top: 8vh;
+        left: 4vw;
+        border: 1px solid black;
+        box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+    }
+</style>
+<body>
+<section>
+    <div>
+        <h3>File Upload</h3>
+        <hr>
+
+        <div class="upload">
+            <div>
+                <div>
+                    <img src="#" id="imgPreview">
+                </div>
+                <input type="file" id="chooser" class="pop" accept="image/png, image/jpg, image/gif, image/jpeg"/>
+                <button id="uBtn">UPLAOD</button>
+            </div>
+            <div>
+                <div class="progress">
+                    <div class="bar"></div >
+                    <div class="percent">0%</div >
+                </div>
+
+                <div id="status"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="tbl">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">NAME</th>
+                <th scope="col">IMAGE</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+
+
+</section>
+<script src="js/jquery-3.7.0.min.js"></script>
+<script>
+    
+
+    $('#uBtn').click(function () {
+        console.log("DD");
+
+        var fileReader = new FileReader();
+
+        var fileInput = document.getElementById('chooser');
+        var file = fileInput.files[0];
+        var formData = new FormData();
+        formData.append('file',file);
+
+
+        fileReader.readAsDataURL(file);
+
+        // console.log(imagePath);
+
+
+        $.ajax({
+            url: 'http://localhost:8080/app/images',
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                alert(response);
+            },
+            error: function() {
+                alert('Failed to upload image.');
+            }
+        });
+
+
+    })
+
+
+
+</script>
+</body>
+</html>
